@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIInventory : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI curInventoryText;
+    [SerializeField] private TextMeshProUGUI maxInventoryText;
     [Header("인벤토리 슬롯")]
     [SerializeField] private ItemSlot slotPrefab;
     [SerializeField] private Transform slotParent;
@@ -29,6 +31,7 @@ public class UIInventory : MonoBehaviour
     private void Start()
     {
         InitInventoryUI(20);
+        UpdateInventoryUI(GameManager.Instance.player.Inventory);
     }
 
     private void InitInventoryUI(int slotCount)
@@ -42,12 +45,22 @@ public class UIInventory : MonoBehaviour
         for (int i = 0; i < slotCount; i++)
         {
             ItemSlot newSlot = Instantiate(slotPrefab, slotParent);
+            newSlot.SetSlot(new InventorySlot(null));
             itemSlots.Add(newSlot);
         }
     }
 
     public void UpdateInventoryUI(List<InventorySlot> inventorySlots)
     {
+        if (curInventoryText != null)
+        {
+            curInventoryText.text = $"{inventorySlots.Count}";
+        }
+        if(maxInventoryText != null)
+        {
+            maxInventoryText.text = $"/ {itemSlots.Count}";
+        }
+
         for (int i = 0; i < itemSlots.Count; i++)
         {
             if(i < inventorySlots.Count)
@@ -73,6 +86,7 @@ public class UIInventory : MonoBehaviour
         {
             equipPopupText.text = $"{slot.ItemData.itemName}을/를 장착 하시겠습니까?";
         }
+        equipPopUp.SetActive(true);
     }
 
     void OnClickEquipYes()

@@ -30,7 +30,7 @@ public class ItemSlot : MonoBehaviour
     {
         inventorySlot = slot;
 
-        if(slot.ItemData != null )
+        if (slot.ItemData != null)
         {
             itemImg.sprite = slot.ItemData.itemImg;
             itemImg.color = Color.white;
@@ -46,13 +46,7 @@ public class ItemSlot : MonoBehaviour
 
     public void OnClickSlot()
     {
-        if (inventorySlot == null)
-        {
-            Debug.LogError("uiInventory 연결 안됨");
-        }
-        if (inventorySlot != null && inventorySlot.ItemData != null)
-        {
-            uiInventory.ShowEquipPopup(inventorySlot);
-        }
+        uiInventory.ShowEquipPopup(inventorySlot);
+
     }
 }
