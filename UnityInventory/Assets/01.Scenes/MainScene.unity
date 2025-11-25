@@ -4610,6 +4610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7ebe62a6e178549ab112b95f5511d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curInventoryText: {fileID: 825089366}
+  maxInventoryText: {fileID: 1056398393}
   slotPrefab: {fileID: 3692454242574256581, guid: b0aa9465eaf42e7448812850b3ad2cad, type: 3}
   slotParent: {fileID: 1142729484}
   itemSlots: []
