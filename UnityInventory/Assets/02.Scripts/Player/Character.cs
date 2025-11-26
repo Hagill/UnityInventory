@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,9 +14,17 @@ public class Character : MonoBehaviour
     public int Gold { get; private set; }
     public int Exp { get; private set; }
     public int MaxExp { get; private set; }
+    public int curHp {  get; private set; }
     public int Critical { get; private set; }
 
     public List<InventorySlot> Inventory = new List<InventorySlot>();
+
+    public event Action OnCharacterStatusChanged;
+
+    private void NotifyStatusChanged()
+    {
+        OnCharacterStatusChanged?.Invoke();
+    }
 
     public int curAttackPoint
     {
@@ -49,14 +58,37 @@ public class Character : MonoBehaviour
         }
     }
 
-    public int curHealth
+    public void AddExp(int exp)
     {
-        get
+        Exp += exp;
+        CheckLevelUp();
+
+        NotifyStatusChanged();
+    }
+
+    private bool CheckLevelUp()
+    {
+        bool levelUp = false;
+        while(Exp >= MaxExp)
         {
-            int health = BaseHp;
-            health += Level * 50;
-            return health;
+            Exp -= MaxExp;
+            LevelUp();
+            levelUp = true;
         }
+        return levelUp;
+    }
+
+    public void LevelUp()
+    {
+        Level++;
+        BaseHp += 10;
+        curHp = BaseHp;
+        BaseAttackPoint += 2;
+        BaseDefencePoint += 1;
+        MaxExp = Level * 10;
+
+        // 레벨 업 버튼을 눌렀을 때 필요
+        NotifyStatusChanged();
     }
 
     public void SetData(string characterName)
@@ -65,8 +97,11 @@ public class Character : MonoBehaviour
         Level = 1;
         Gold = 25000;
         Exp = 6;
-        MaxExp = 10;
+        MaxExp = Level * 10;
         Critical = 25;
+        curHp = BaseHp;
+
+        NotifyStatusChanged();
     }
 
     public void EquipItem(InventorySlot slotToEquip)
@@ -83,10 +118,7 @@ public class Character : MonoBehaviour
         }
         slotToEquip.isEquipped = true;
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UpdateAllUI();
-        }
+        NotifyStatusChanged();
     }
 
     public void UnequipItem(InventorySlot slotToUnequip)
@@ -94,9 +126,7 @@ public class Character : MonoBehaviour
         if (slotToUnequip == null || slotToUnequip.ItemData == null) return;
         slotToUnequip.isEquipped = false;
         Debug.Log($"{slotToUnequip.ItemData.itemName} 장착해제");
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UpdateAllUI();
-        }
+
+        NotifyStatusChanged();
     }
 }

@@ -21,6 +21,15 @@ public class UIInventory : MonoBehaviour
 
     private InventorySlot selectedSlot;
 
+    private void OnEnable()
+    {  
+        if(GameManager.Instance != null && GameManager.Instance.player != null)
+        {
+            UpdateInventoryUI(GameManager.Instance.player.Inventory);
+        }
+        
+    }
+
     private void Awake()
     {
         yesBtn.onClick.AddListener(OnClickEquipYes);
@@ -30,7 +39,7 @@ public class UIInventory : MonoBehaviour
     }
     private void Start()
     {
-        InitInventoryUI(20);
+        InitInventoryUI(120);
         UpdateInventoryUI(GameManager.Instance.player.Inventory);
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIStatus uiStatus;
     [SerializeField] private UIInventory uiInventory;
 
+    [Header("경험치 추가 버튼")]
+    [SerializeField] private Button expAddBtn;
+    [SerializeField] private Button expManyAddBtn;
+    [SerializeField] private Button levelUpBtn;
+
     private void Awake()
     {
         if (Instance == null)
@@ -24,6 +30,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        expAddBtn.onClick.AddListener(OnAddExp);
+        expManyAddBtn.onClick.AddListener(OnAddManyExp);
+        levelUpBtn.onClick.AddListener(OnLevelUp);
     }
 
     private void Start()
@@ -45,9 +55,9 @@ public class GameManager : MonoBehaviour
                 return;
             }
 
-            player.SetData("정리코");
+            player.OnCharacterStatusChanged += HandleCharacterStatusChanged;
 
-            UpdateAllUI();
+            player.SetData("정리코");
         }
         else
         {
@@ -55,22 +65,67 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void HandleCharacterStatusChanged()
+    {
+        Debug.Log("player의 상태 UI 갱신");
+        UpdateAllUI();
+    }
+
     public void UpdateAllUI()
     {
-        if (uiMainMenu == null)
+        if(player == null)
         {
-            Debug.LogError("UIMainMenu 없음");
+            Debug.LogError("Player 인스턴스 없음");
         }
-        if (uiStatus == null)
+        
+        if (uiMainMenu != null)
         {
-            Debug.LogError("UIStatus 없음");
+            uiMainMenu.SetCharacterInfo(player);
         }
-        if(uiInventory == null)
+        else { Debug.LogError("UIMainMenu 없음"); }
+
+        if (uiStatus != null)
         {
-            Debug.LogError("UIInventory 없음");
+            uiStatus.SetCharacterStats(player);
         }
-        uiMainMenu.SetCharacterInfo(player);
-        uiStatus.SetCharacterStats(player);
-        uiInventory.UpdateInventoryUI(player.Inventory);
+        else { Debug.LogError("uiStatus 없음"); }
+
+        if (uiInventory != null)
+        {
+            uiInventory.UpdateInventoryUI(player.Inventory);
+        }
+        else { Debug.LogError("uiInventory 없음"); }
+    }
+
+    public void OnAddExp()
+    {
+        if (player != null)
+        {
+            player.AddExp(1);
+        }
+    }
+
+    public void OnAddManyExp()
+    {
+        if (player != null)
+        {
+            player.AddExp(10);
+        }
+    }
+
+    public void OnLevelUp()
+    {
+        if (player != null)
+        {
+            player.LevelUp();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (player != null)
+        {
+            player.OnCharacterStatusChanged -= HandleCharacterStatusChanged;
+        }
     }
 }

@@ -16,7 +16,7 @@ public class UIStatus : MonoBehaviour
         {
             attack.text = $"{player.curAttackPoint}";
             defence.text = $"{player.curDefencePoint}";
-            health.text = $"{player.curHealth}";
+            health.text = $"{player.curHp}";
             Critical.text = $"{player.Critical}";
         }
     }
