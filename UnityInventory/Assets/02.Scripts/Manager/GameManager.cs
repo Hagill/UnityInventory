@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
         SetGameData();
     }
 
+    // 플레이어 생성 및 버튼 이벤트 구독
     public void SetGameData()
     {
         if (playerPrefab != null)
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         UpdateAllUI();
     }
 
+    // 모든 UI를 업데이트
     public void UpdateAllUI()
     {
         if(player == null)

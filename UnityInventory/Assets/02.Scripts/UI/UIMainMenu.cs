@@ -11,6 +11,8 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Image expBar;
     [SerializeField] private TextMeshProUGUI description;
 
+
+    // player의 각 정보를 텍스트에 기입
     public void SetCharacterInfo(Character player)
     {
         if(player != null)

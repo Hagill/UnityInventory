@@ -37,12 +37,14 @@ public class UIInventory : MonoBehaviour
 
         equipPopUp.SetActive(false);
     }
+
     private void Start()
     {
         InitInventoryUI(120);
         UpdateInventoryUI(GameManager.Instance.player.Inventory);
     }
 
+    // 인벤토리의 슬롯 생성
     private void InitInventoryUI(int slotCount)
     {
         foreach (ItemSlot slot in itemSlots)
@@ -59,6 +61,7 @@ public class UIInventory : MonoBehaviour
         }
     }
 
+    // 인벤토리 UI 갱신
     public void UpdateInventoryUI(List<InventorySlot> inventorySlots)
     {
         if (curInventoryText != null)
@@ -83,6 +86,7 @@ public class UIInventory : MonoBehaviour
         }
     }
 
+    // 장착 팝업 표시
     public void ShowEquipPopup(InventorySlot slot)
     {
         selectedSlot = slot;
@@ -98,6 +102,7 @@ public class UIInventory : MonoBehaviour
         equipPopUp.SetActive(true);
     }
 
+    // 아이템 장착 버튼 클릭
     void OnClickEquipYes()
     {
         if(selectedSlot != null)
