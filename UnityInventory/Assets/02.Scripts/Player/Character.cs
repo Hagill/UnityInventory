@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Character : MonoBehaviour
 {
@@ -26,7 +24,7 @@ public class Character : MonoBehaviour
             int sum = BaseAttackPoint;
             for (int i =0; i < Inventory.Count; i++)
             {
-                if (Inventory[i].isEquipped && Inventory[i].ItemData.type == ItemType.Weapon)
+                if (Inventory[i].isEquipped && Inventory[i].ItemData != null && Inventory[i].ItemData.type == ItemType.Weapon)
                 {
                     sum += Inventory[i].ItemData.value;
                 }
@@ -42,7 +40,7 @@ public class Character : MonoBehaviour
             int sum = BaseDefencePoint;
             for (int i = 0; i < Inventory.Count; i++)
             {
-                if (Inventory[i].isEquipped && Inventory[i].ItemData.type == ItemType.Armor)
+                if (Inventory[i].isEquipped && Inventory[i].ItemData != null && Inventory[i].ItemData.type == ItemType.Armor)
                 {
                     sum += Inventory[i].ItemData.value;
                 }
@@ -65,7 +63,7 @@ public class Character : MonoBehaviour
     {
         Name = characterName;
         Level = 1;
-        Gold = 20000;
+        Gold = 25000;
         Exp = 6;
         MaxExp = 10;
         Critical = 25;
@@ -77,13 +75,18 @@ public class Character : MonoBehaviour
 
         foreach (var slot in Inventory)
         {
-            if(slot.isEquipped && slot.ItemData.type == slotToEquip.ItemData.type)
+            if(slot.isEquipped && slot.ItemData != null && slot.ItemData.type == slotToEquip.ItemData.type)
             {
                 slot.isEquipped = false;
                 Debug.Log($"{slot.ItemData.itemName} 장착해제");
             }
         }
         slotToEquip.isEquipped = true;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UpdateAllUI();
+        }
     }
 
     public void UnequipItem(InventorySlot slotToUnequip)
@@ -91,5 +94,9 @@ public class Character : MonoBehaviour
         if (slotToUnequip == null || slotToUnequip.ItemData == null) return;
         slotToUnequip.isEquipped = false;
         Debug.Log($"{slotToUnequip.ItemData.itemName} 장착해제");
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UpdateAllUI();
+        }
     }
 }

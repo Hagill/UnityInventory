@@ -93,7 +93,24 @@ public class UIInventory : MonoBehaviour
     {
         if(selectedSlot != null)
         {
-            selectedSlot.isEquipped = !selectedSlot.isEquipped;
+            Character player = GameManager.Instance.player;
+            if (player != null)
+            {
+                if (selectedSlot.isEquipped)
+                {
+                    player.UnequipItem(selectedSlot);
+                    equipPopUp.SetActive(false);
+                }
+                else
+                {
+                    player.EquipItem(selectedSlot);
+                    equipPopUp.SetActive(false);
+                }
+            }
+            else
+            {
+                Debug.LogError("GameManager의 Player 인스턴스를 찾을 수 없음");
+            }
 
         }
     }

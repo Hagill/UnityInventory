@@ -46,7 +46,13 @@ public class ItemSlot : MonoBehaviour
 
     public void OnClickSlot()
     {
-        uiInventory.ShowEquipPopup(inventorySlot);
-
+        if (inventorySlot != null && inventorySlot.ItemData != null)
+        {
+            uiInventory.ShowEquipPopup(inventorySlot);
+        }
+        else
+        {
+            Debug.Log("빈 인벤토리임");
+        }
     }
 }
