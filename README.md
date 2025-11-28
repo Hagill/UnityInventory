@@ -1,5 +1,9 @@
 # 프로젝트 이름 UnityInventory
 
+<img width="963" height="540" alt="image" src="https://github.com/user-attachments/assets/cfa108ef-c5c3-44c9-9bcd-b0313070ea1e" />
+
+<img width="964" height="543" alt="image" src="https://github.com/user-attachments/assets/05935bad-4bfc-44f7-8176-ef50ed84a794" />
+
 <img width="963" height="541" alt="image" src="https://github.com/user-attachments/assets/ab1c8a1d-127e-4066-bd21-e71588583766" />
 
 
